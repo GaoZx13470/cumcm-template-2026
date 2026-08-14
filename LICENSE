@@ -1,0 +1,47 @@
+CC BY-NC-SA 4.0 License
+
+This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+
+You should have received a copy of the license along with this work.
+If not, see <https://creativecommons.org/licenses/by-nc-sa/4.0/>.
+
+The full legal text is available at:
+<https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode>
+
+
+Summary of key terms (not a substitute for the full license):
+
+  - Attribution (BY): You must give appropriate credit, provide a link to
+    the license, and indicate if changes were made.
+  - NonCommercial (NC): You may not use the material for commercial
+    purposes.
+  - ShareAlike (SA): If you remix, transform, or build upon the material,
+    you must distribute your contributions under the same license as the
+    original.
+
+
+Scope of this LICENSE
+---------------------
+
+This CC BY-NC-SA 4.0 license applies to the original content of this
+repository:
+
+  - cumcmthesis.cls
+  - *.tex (including sections/*.tex, main.tex)
+  - build.sh, build.bat, .latexmkrc
+  - README.md and other top-level Markdown documentation
+  - Any other files authored by this project's contributors
+
+The following components are NOT covered by this license and retain
+their own respective licenses:
+
+  - fonts/*       : SIL Open Font License 1.1 (OFL 1.1)
+                     See https://scripts.sil.org/OFL and fonts/README.md.
+  - bib/gbt7714-numeric.bst : LaTeX Project Public License 1.3c (LPPL 1.3c)
+                     Copyright (c) zepinglee.
+                     See https://www.latex-project.org/lppl/lppl-1-3c/.
+                     This file must remain under LPPL 1.3c; modifications
+                     must follow LPPL renaming or notice requirements.
+
+For those third-party components, please refer to their original license
+terms before redistribution.

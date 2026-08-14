@@ -1,0 +1,41 @@
+% AI 提示：附录包含支撑材料文件列表 + 全部源代码
+%   - 表格：\csvtable{data/xxx.csv}{标题}{tab:xxx}（CSV 必须 UTF-8）
+%   - 代码：\lstinputlisting[style=Python]{code/q1.py}（已放在 code/）
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{附录}
+\section*{附录}
+
+\subsection*{支撑材料文件列表}
+本文提交的支撑材料文件列表如下：
+
+\begin{table}[H]
+  \centering
+  \caption{支撑材料文件列表}
+  \label{tab:filelist}
+  \begin{tabularx}{\textwidth}{@{}>{\centering}p{4cm}>{\centering\arraybackslash}X@{}}
+    \toprule
+    文件名 & 功能描述 \\
+    \midrule
+    q1.py & 问题一的求解程序 \\
+    q2.py & 问题二的求解程序 \\
+    q3.py & 问题三/四的求解程序 \\
+    data.xlsx & 本文使用的原始数据与处理结果 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection*{中间结果表（CSV 自动排版示例）}
+\csvtable{data/示例结果表.csv}{各模型性能对比（示例）}{tab:csvdemo}
+
+\subsection*{核心源代码}
+
+\subsubsection*{问题一求解程序（q1.py）}
+\lstinputlisting[style=Python]{code/q1.py}
+
+\subsubsection*{问题二求解程序（q2.py）}
+\lstinputlisting[style=Python]{code/q2.py}
+
+\subsubsection*{问题三/四求解程序（q3.py）}
+\lstinputlisting[style=Python]{code/q3.py}

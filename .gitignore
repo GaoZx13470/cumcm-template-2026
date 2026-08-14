@@ -1,0 +1,37 @@
+# CUMCM 2026 LaTeX 模板 —— 编译产物忽略规则
+#
+# AI 提示：本仓库约定
+#   - 保留源文件：main.tex / *.cls / sections/* / code/* / data/* / figures/*
+#   - 忽略编译产物：*.aux *.bbl *.blg *.log *.out *.toc *.synctex.gz 等
+#   - 保留 main.pdf / main-elec.pdf（最终交付）
+#   - data/pages/ 与 data/backups/ 由 PaperFit 工具产生，不入库
+
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.run.xml
+*.xdv
+.latexmk/
+data/pages/
+data/backups/
+ori/
+赛方文件/
+ipt/
+otp/
+
+# 临时办公文件（不入库）
+*.ppt
+*.pptx
+*.doc
+*.docx
+*.zip
+*.rar
+
+# Git 原生不支持按文件大小忽略；如需拦截 >10MB 的大文件，
+# 推荐使用 Git LFS（`git lfs track "*.pdf" "*.zip"` 等）。

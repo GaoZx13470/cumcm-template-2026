@@ -1,0 +1,63 @@
+%! TEX program = xelatex
+% =============================================================================
+%  main.tex —— 论文唯一入口
+% -----------------------------------------------------------------------------
+%  同一文件通过 \jobname 自动产出两版：
+%    · main.pdf       纸质版（黑白）
+%    · main-elec.pdf  电子版（彩色）
+%  编译：xelatex → bibtex → xelatex → xelatex（用 build.sh / build.bat 一键完成）
+% =============================================================================
+
+% -----------------------------------------------------------------------------
+% AI 提示：以下版本判断勿改，\jobname 由编译命令 -jobname= 决定
+% -----------------------------------------------------------------------------
+\ifnum\pdfstrcmp{\jobname}{main-elec}=0
+  \documentclass[colorprint, notoc]{cumcmthesis}
+\else
+  \documentclass[bwprint, notoc]{cumcmthesis}
+\fi
+
+% -----------------------------------------------------------------------------
+% AI 提示：修改这里改论文标题（显示在摘要页顶部）
+% -----------------------------------------------------------------------------
+\title{论文标题}
+
+% -----------------------------------------------------------------------------
+% AI 提示：按需加载额外宏包，必须放在 \begin{document} 之前
+%   cls 已预加载：fontspec / unicode-math / ctex / amsmath / xcolor / graphicx
+%                  subcaption / array / booktabs / tabularx / longtable / multirow
+%                  listings / titlesec / caption / enumitem / ulem / amsthm / fancyhdr
+%                  tikz / natbib / hyperref / pgfplotstable
+% -----------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle
+\input{sections/1abstract}        % 摘要（必填：正文 + \keywords{...}）
+
+% -----------------------------------------------------------------------------
+% AI 提示：以下为正文章节，按题目顺序填入对应文件
+%   2ProblemRestatement  问题重述
+%   3ProblemAnalysis     问题分析
+%   4AssumptionAndSign   模型假设 + 符号说明
+%   5MakeModel           模型建立与求解（核心，最长）
+%   6ErrorAnalysis       误差分析 + 灵敏度分析
+%   7ModelEvaluation     模型评价
+% -----------------------------------------------------------------------------
+\input{sections/2ProblemRestatement}
+\input{sections/3ProblemAnalysis}
+\input{sections/4AssumptionAndSign}
+\input{sections/5MakeModel}
+\input{sections/6ErrorAnalysis}
+\input{sections/7ModelEvaluation}
+
+\input{sections/8AiDeclaration}    % AI 工具使用声明（二选一，保留其一）
+
+% -----------------------------------------------------------------------------
+% AI 提示：参考文献用 \cite{key} 引用，条目统一维护在 ref.bib
+% -----------------------------------------------------------------------------
+\input{sections/9Reference}
+
+\input{sections/10Appendix}        % 附录：支撑材料文件列表 + 全部源代码
+
+\end{document}
