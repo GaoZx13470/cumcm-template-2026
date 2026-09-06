@@ -1,69 +1,18 @@
 {
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latex.recipe.default": "first",
+  "latex-workshop.latex.outDir": "%DIR%",
   "latex-workshop.latex.tools": [
     {
-      "name": "xelatex-main",
-      "command": "xelatex",
-      "args": [
-        "-interaction=nonstopmode",
-        "-synctex=1",
-        "-jobname=main",
-        "main.tex"
-      ],
-      "env": {}
-    },
-    {
-      "name": "xelatex-main-elec",
-      "command": "xelatex",
-      "args": [
-        "-interaction=nonstopmode",
-        "-synctex=1",
-        "-jobname=main-elec",
-        "main.tex"
-      ],
-      "env": {}
-    },
-    {
-      "name": "bibtex8-main",
-      "command": "bibtex8",
-      "args": ["main"]
-    },
-    {
-      "name": "bibtex8-main-elec",
-      "command": "bibtex8",
-      "args": ["main-elec"]
+      "name": "latexmk-main",
+      "command": "latexmk",
+      "args": ["-cd", "%WORKSPACE_FOLDER%/main.tex"]
     }
   ],
   "latex-workshop.latex.recipes": [
     {
-      "name": "双版本 (纸质黑白 + 电子彩色)",
-      "tools": [
-        "xelatex-main",
-        "bibtex8-main",
-        "xelatex-main",
-        "xelatex-main",
-        "xelatex-main-elec",
-        "bibtex8-main-elec",
-        "xelatex-main-elec",
-        "xelatex-main-elec"
-      ]
-    },
-    {
-      "name": "仅纸质版 (黑白)",
-      "tools": [
-        "xelatex-main",
-        "bibtex8-main",
-        "xelatex-main",
-        "xelatex-main"
-      ]
-    },
-    {
-      "name": "仅电子版 (彩色)",
-      "tools": [
-        "xelatex-main-elec",
-        "bibtex8-main-elec",
-        "xelatex-main-elec",
-        "xelatex-main-elec"
-      ]
+      "name": "彩色 PDF (main.pdf)",
+      "tools": ["latexmk-main"]
     }
   ]
 }

@@ -1,6 +1,6 @@
 # CUMCM 2026 论文模板
 
-> 全国大学生数学建模竞赛（CUMCM）LaTeX 论文模板 · 一键产出纸质黑白版与电子彩色版
+> 全国大学生数学建模竞赛（CUMCM）LaTeX 论文模板 · 一键生成唯一的彩色 main.pdf
 
 [![LaTeX](https://img.shields.io/badge/LaTeX-XeLaTeX-blue?logo=latex)](https://www.latex-project.org/)
 [![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-green)](./LICENSE)
@@ -12,11 +12,11 @@
 
 本仓库提供 **全国大学生数学建模竞赛（CUMCM）** 的 LaTeX 论文模板，针对 2026 年赛制做了字体、版式与构建链的统一：
 
-- **一份源文件，两份 PDF**：同一份 `main.tex` 通过 `\jobname` 自动产出 `main.pdf`（纸质黑白版）与 `main-elec.pdf`（电子彩色版）。
+- **一份源文件，一份 PDF**：`main.tex` 始终生成彩色 `main.pdf`，文件名不带版本后缀。
 - **零系统字体依赖**：所有西文、中文、数学与等宽字体均随仓库分发（`fonts/`），不依赖 TeX 系统字体或操作系统字体。
-- **编译链即开即用**：`build.sh` / `build.bat` 一键完成 `xelatex → bibtex → xelatex → xelatex` 完整四遍编译。
+- **统一自动编译**：`build.sh` / `build.bat` 调用 `latexmk`，按需运行 XeLaTeX 与 BibTeX，直到参考文献和交叉引用稳定。
 - **模块化正文**：所有章节、附录、参考文献、源代码均按文件拆分，便于版本管理与 AI 协作修改。
-- **VSCode / TeXstudio 友好**：内置 `.latexmkrc`，可直接在 LaTeX Workshop 中单/双版本切换。
+- **VSCode / TeXstudio 友好**：内置 `.latexmkrc`；LaTeX Workshop 保存时自动编译，始终更新同一个 `main.pdf`。
 
 可与 [PaperFit](https://github.com/) 视觉排版优化工具链配合使用（视觉验收 + 列空洞检测 + 自动重编译）。
 
@@ -27,7 +27,7 @@
 | 特性 | 说明 |
 |---|---|
 | 编译器 | **XeLaTeX**（强制，模板含编译期校验） |
-| 输出 | 单次构建产出 `main.pdf`（黑白）+ `main-elec.pdf`（彩色） |
+| 输出 | 仅生成彩色 `main.pdf` |
 | 字号 / 纸张 | 12pt / A4 |
 | 章节文件 | `sections/1abstract` … `sections/10Appendix` |
 | 参考文献 | `bibtex` + `gbt7714-numeric`（GB/T 7714 顺序编码制） |
@@ -36,7 +36,7 @@
 | 代码 | `listings` 提供 `Python` 风格；`\lstinputlisting` 一键插入附录源码 |
 | 浮动体 | `graphicx` + `subcaption`（子图组合） |
 | 数学 | `unicode-math` + `amsmath` + `amsthm`（定理环境） |
-| 类选项 | `bwprint`（默认）/ `colorprint`、`notoc`（默认）/ `toc`、`draft` |
+| 类选项 | `colorprint`（默认且唯一）、`notoc`（默认）/ `toc`、`draft` |
 
 ---
 
@@ -44,10 +44,10 @@
 
 ```
 cumcm-template-2026/
-├── main.tex              # 论文唯一入口；按 \jobname 切换黑白/彩色
+├── main.tex              # 论文唯一入口；固定彩色输出 main.pdf
 ├── cumcmthesis.cls       # 模板类文件（选项、字体、版式、Caption 等）
-├── build.sh              # Linux/macOS 一键双版本编译脚本
-├── build.bat             # Windows 一键双版本编译脚本
+├── build.sh              # Linux/macOS 一键彩色编译脚本
+├── build.bat             # Windows 一键彩色编译脚本
 ├── .latexmkrc            # latexmk 配置（VSCode LaTeX Workshop 友好）
 ├── .gitignore            # 忽略 *.aux *.bbl *.log 等编译产物
 ├── ref.bib               # 论文参考文献 BibTeX 数据库
@@ -87,8 +87,8 @@ cumcm-template-2026/
 需要本机已安装 TeX Live 2023+ 或 MiKTeX 2023+，并满足：
 
 - `xelatex`（必须，模板拒绝其他编译器）
-- `bibtex` 或 `bibtex8`（参考文献）
-- `latexmk`（可选，仅 VSCode LaTeX Workshop 需要）
+- `bibtex8`（参考文献；TeX Live / MiKTeX 提供）
+- `latexmk`（构建脚本、命令行和 VSCode 共用；需可用的 Perl 运行时）
 
 > Windows 用户推荐使用 **MiKTeX**；macOS 推荐 **MacTeX**；Linux 推荐 **TeX Live**。
 
@@ -103,7 +103,7 @@ cd cumcm-template-2026
 
 打开 `main.tex`，修改：
 
-- `\title{论文标题}`：论文实际标题（同时显示在摘要页与电子版页眉）。
+- `\title{论文标题}`：论文实际标题（显示在摘要页顶部）。
 - `sections/1abstract.tex`：摘要正文 + `\keywords{关键词1 \quad 关键词2 ...}`。
 - `sections/2` – `sections/7`：按题目顺序填入正文。
 - `sections/8AiDeclaration.tex`：保留 AI 声明 / 非 AI 声明二选一。
@@ -128,44 +128,36 @@ build.bat
 完成后将得到：
 
 ```
-main.pdf        # 纸质黑白版（用于打印、提交）
-main-elec.pdf   # 电子彩色版（用于评审、在线展示）
+main.pdf        # 唯一的彩色 PDF
 ```
 
 ---
 
-## 🔨 编译流程详解
+## 🔨 编译与自动编译
 
-`build.sh` / `build.bat` 对每个版本执行 **xelatex → bibtex → xelatex → xelatex** 四遍：
+所有入口共用 `.latexmkrc`，仅以 `main.tex` 为入口，输出到项目根目录的 `main.pdf`：
 
-1. **xelatex（pass 1）**：生成 `.aux`，记录 `\cite` 与 `\label`。
-2. **bibtex**：读取 `.aux` 与 `ref.bib`，产出 `.bbl`。
-3. **xelatex（pass 2）**：将 `.bbl` 嵌入正文，解析引用编号。
-4. **xelatex（pass 3）**：稳定页码、目录、交叉引用。
+- **Windows**：双击 `build.bat`，或在终端运行它。
+- **Linux / macOS**：运行 `./build.sh`。
+- **命令行**：在项目根目录运行 `latexmk` 或 `latexmk main.tex`。
+- **VSCode**：安装 LaTeX Workshop 后打开项目文件夹；保存论文源文件即自动编译。手动构建也只提供“彩色 PDF (main.pdf)”一个配方。
+- **持续监听**：在项目根目录运行 `latexmk -pvc main.tex`，按 `Ctrl+C` 停止。
 
-> 两次完整编译（`main` + `main-elec`）共 **8 次 xelatex + 2 次 bibtex**。删除中间产物不会影响最终 PDF，但会导致下次编译重跑四遍。
+`latexmk` 按需运行 XeLaTeX、`bibtex8` 及后续 XeLaTeX，直到参考文献、页码与交叉引用稳定。未修改文件时不会重复编译；编译失败会返回非零状态，构建脚本不会误报成功。
+
+`.aux`、`.bbl`、`.log`、`.synctex.gz` 等为辅助文件；最终 PDF 只有 `main.pdf`。需要清理辅助文件时，在项目根目录运行 `latexmk -c`（保留 PDF）。
 
 ---
 
-## 🆚 黑白版 vs 彩色版
+## 🎨 彩色输出
 
-模板通过 `\jobname` 自动切换，详见 `main.tex`：
+`main.tex` 直接加载彩色模板：
 
 ```latex
-\ifnum\pdfstrcmp{\jobname}{main-elec}=0
-  \documentclass[colorprint, notoc]{cumcmthesis}  % 彩色版
-\else
-  \documentclass[bwprint,    notoc]{cumcmthesis}  % 黑白版
-\fi
+\documentclass[colorprint, notoc]{cumcmthesis}
 ```
 
-| 维度 | `main.pdf`（`bwprint`） | `main-elec.pdf`（`colorprint`） |
-|---|---|---|
-| 链接颜色 | 纯黑 | 蓝/红可识别 |
-| 代码高亮 | 单色 | 全彩 |
-| TikZ 图形 | 自动转二值黑 | 保留原始配色 |
-| 图片 | **必须** 灰度友好 | 保留彩色 |
-| 推荐用途 | 打印装订、提交 | 评审、答辩、在线展示 |
+模板固定保留代码高亮、TikZ 彩色填充和图片原始配色；内部链接与网址使用深蓝色，文献引用使用深红色。`colorprint` 是默认选项，省略后仍输出彩色。
 
 ---
 
@@ -173,7 +165,7 @@ main-elec.pdf   # 电子彩色版（用于评审、在线展示）
 
 ### 修改标题
 
-`main.tex` 第 23 行：
+`main.tex` 中：
 
 ```latex
 \title{你的论文标题}
@@ -269,21 +261,20 @@ A：必须在仓库根目录执行编译，不要切换到 `sections/` 等子目
 A：模板强制 XeLaTeX。请切换编译器，不要使用 pdfLaTeX / LuaLaTeX。
 
 **Q3：参考文献列表为空？**
-A：必须按四遍顺序编译（`build.sh` / `build.bat` 已自动完成）。若手编，至少需要 `xelatex → bibtex → xelatex → xelatex`。
+A：运行 `build.sh` / `build.bat` 或 `latexmk main.tex`，由 latexmk 自动补齐参考文献编译步骤。
 
 **Q4：`bibtex8` 在 Windows 下闪退？**
-A：MiKTeX 推荐使用 `bibtex8`；若仍异常，将 `build.bat` 中的 `bibtex8` 替换为 `bibtex` 即可。
+A：MiKTeX 推荐使用 `bibtex8`；若仍异常，将 `.latexmkrc` 中的 `bibtex8` 替换为 `bibtex`，所有编译入口会同步生效。
 
 **Q5：中文显示为方框或缺失？**
 A：检查 `fonts/` 下中文字体是否存在且文件名大小写正确。`cumcmthesis.cls` 默认从 `fonts/` 加载，不依赖系统字体。
 
-**Q6：如何只编译一个版本？**
+**Q6：如何强制重新编译？**
+
+在项目根目录执行，仍然只更新彩色 `main.pdf`：
 
 ```bash
-xelatex -interaction=nonstopmode -synctex=1 -jobname=main       main.tex
-bibtex8 main
-xelatex -interaction=nonstopmode -synctex=1 -jobname=main       main.tex
-xelatex -interaction=nonstopmode -synctex=1 -jobname=main       main.tex
+latexmk -g main.tex
 ```
 
 ---

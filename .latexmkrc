@@ -1,12 +1,13 @@
-# .latexmkrc —— latexmk 配置（XeLaTeX + bibtex8）
-#
-# AI 提示：命令行一键双版本请用 build.sh / build.bat（latexmk 的 -jobname 与
-#         bibtex8 的非零返回码有兼容问题），本配置主要用于 VSCode LaTeX Workshop
-$pdf_mode  = 5;                                                       # xelatex
-$xelatex   = 'xelatex -interaction=nonstopmode -synctex=1 %O %S';
-$bibtex    = 'bibtex8 %O %B';
-$bibtex_use = 2;                                                      # bibtex 用于参考文献
+# 单一彩色输出 main.pdf；构建脚本与 VSCode 共用此配置。
+# latexmk 自动运行 XeLaTeX / BibTeX，直到引用与页码稳定。
+$pdf_mode = 5;
+$xelatex = 'xelatex -interaction=nonstopmode -halt-on-error -file-line-error -synctex=1 %O %S';
+$bibtex = 'bibtex8 %O %B';
+$bibtex_use = 2;
+@default_files = ('main.tex');
 $clean_ext = 'aux bbl blg log out toc synctex.gz fls fdb_latexmk run.xml';
 
-# 让 bibtex 优先搜索本仓库 bib/ 目录
-$ENV{'BIBINPUTS'} = './bib:' . ($ENV{'BIBINPUTS'} || '');
+# 样式文件在 bib/；保留尾部分隔符以继续搜索 TeX 默认目录。
+my $path_sep = ($^O eq 'MSWin32') ? ';' : ':';
+$ENV{'BSTINPUTS'} = './bib' . $path_sep . ($ENV{'BSTINPUTS'} || '');
+$ENV{'BIBINPUTS'} = '.' . $path_sep . ($ENV{'BIBINPUTS'} || '');

@@ -3,7 +3,7 @@
 # AI 提示：本仓库约定
 #   - 保留源文件：main.tex / *.cls / sections/* / code/* / data/* / figures/*
 #   - 忽略编译产物：*.aux *.bbl *.blg *.log *.out *.toc *.synctex.gz 等
-#   - 保留 main.pdf / main-elec.pdf（最终交付）
+#   - 仅保留 main.pdf（彩色最终交付）
 #   - data/pages/ 与 data/backups/ 由 PaperFit 工具产生，不入库
 
 *.aux

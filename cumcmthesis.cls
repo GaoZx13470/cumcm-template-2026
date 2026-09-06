@@ -10,23 +10,20 @@
 
 %% -----------------------------------------------------------------------------
 %% 文档选项
-%%   bwprint     黑白打印（默认）：链接/代码/TikZ 全部转纯二值黑
-%%   colorprint  彩色电子版
+%%   colorprint  彩色输出（默认且唯一）
 %%   notoc       不生成目录
 %%   draft       草稿：不加载图片与代码高亮
 %% -----------------------------------------------------------------------------}
-\newif\if@mcm@bwprint\@mcm@bwprintfalse
 \newif\if@mcm@toc\@mcm@tocfalse
 \newif\if@mcm@draft\@mcm@draftfalse
 
-\DeclareOption{bwprint}{\@mcm@bwprinttrue}
-\DeclareOption{colorprint}{\@mcm@bwprintfalse}
+\DeclareOption{colorprint}{}
 \DeclareOption{notoc}{\@mcm@tocfalse}
 \DeclareOption{toc}{\@mcm@toctrue}
 \DeclareOption{draft}{\@mcm@drafttrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 
-\ExecuteOptions{bwprint,notoc}
+\ExecuteOptions{colorprint,notoc}
 \ProcessOptions\relax
 
 \LoadClass[a4paper,12pt]{article}
@@ -238,29 +235,19 @@
 
 %% -----------------------------------------------------------------------------
 %% listings 代码样式：TeX Gyre Cursor + 浅灰底 + 边框
-%%   bwprint : 关键字/注释/字符串/行号全黑、背景纯白、边框黑（适合打印）
-%%   colorprint : 关键字深蓝、注释绿、字符串紫、行号灰、浅灰底
+%%   关键字深蓝、注释绿、字符串紫、行号灰、浅灰底
 %% -----------------------------------------------------------------------------}
 \if@mcm@draft\else
   \definecolor{codegreen}{rgb}{0,0.6,0}
   \definecolor{codegray}{rgb}{0.5,0.5,0.5}
   \definecolor{codepurple}{rgb}{0.58,0,0.82}
   \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-  \if@mcm@bwprint
-    \colorlet{codekw}{black}
-    \colorlet{codecomment}{black}
-    \colorlet{codestring}{black}
-    \colorlet{codenumber}{black}
-    \colorlet{codebg}{white}
-    \colorlet{coderule}{black}
-  \else
-    \colorlet{codekw}{NavyBlue}
-    \colorlet{codecomment}{codegreen}
-    \colorlet{codestring}{codepurple}
-    \colorlet{codenumber}{codegray}
-    \colorlet{codebg}{backcolour}
-    \colorlet{coderule}{red!20!green!20!blue!20}
-  \fi
+  \colorlet{codekw}{NavyBlue}
+  \colorlet{codecomment}{codegreen}
+  \colorlet{codestring}{codepurple}
+  \colorlet{codenumber}{codegray}
+  \colorlet{codebg}{backcolour}
+  \colorlet{coderule}{red!20!green!20!blue!20}
   \lstdefinestyle{mystyle}{
     backgroundcolor=\color{codebg},
     commentstyle=\color{codecomment},
@@ -293,19 +280,13 @@
 \newtheorem{solution}{解}
 
 %% -----------------------------------------------------------------------------
-%% TikZ 流程图预设（颜色随 bwprint/colorprint 切换）
+%% TikZ 流程图预设（保留彩色填充）
 %% -----------------------------------------------------------------------------}
 \RequirePackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows.meta, positioning}
-\if@mcm@bwprint
-  \colorlet{startstopfill}{white}
-  \colorlet{processfill}{white}
-  \colorlet{decisionfill}{white}
-\else
-  \colorlet{startstopfill}{red!20}
-  \colorlet{processfill}{blue!20}
-  \colorlet{decisionfill}{green!20}
-\fi
+\colorlet{startstopfill}{red!20}
+\colorlet{processfill}{blue!20}
+\colorlet{decisionfill}{green!20}
 \tikzset{
   startstop/.style={rectangle, rounded corners, minimum width=3cm, minimum height=1cm,
                     text centered, draw=black, fill=startstopfill},
@@ -330,10 +311,9 @@
 \hypersetup{
   pdfstartview=FitH,
   CJKbookmarks=true, bookmarksnumbered=true, bookmarksopen=true,
-  colorlinks=true, allcolors=black,
+  colorlinks=true, linkcolor=NavyBlue, citecolor=Maroon, urlcolor=NavyBlue,
   breaklinks=true
 }
-\if@mcm@bwprint\hypersetup{hidelinks}\fi
 \pdfstringdefDisableCommands{%
   \def\cftdotfill{ }%
   \def\leavevmode{}%
